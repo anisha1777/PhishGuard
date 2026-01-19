@@ -1,70 +1,89 @@
-# Getting Started with Create React App
+# PhishGuard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
+PhishGuard is a cybersecurity project built to detect phishing threats using an intelligent combination of machine learning and web technologies. Its primary goal is to analyze user input (such as email content or URLs) and classify whether it is a phishing attempt.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🔍 Features
+- 🛡️ Machine Learning–powered phishing detection  
+- 🔗 URL and email analysis  
+- 📊 Interactive frontend built with React  
+- 🧠 Trainable model using `train_model.py`  
+- 🐍 Backend API support using `app.py`  
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🗂️ Project Structure
+```text
+PhishGuard/
+├── public/                 # Static public assets (icons, index.html)
+├── src/                    # React frontend source
+├── app.py                  # Flask backend server
+├── train_model.py          # Model training script
+├── package.json            # Frontend dependencies & scripts
+├── package-lock.json
+├── tailwind.config.js      # Frontend styling configuration
+├── .gitignore
+└── README.md
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+🧰 Tech Stack
 
-### `npm test`
+Frontend: React, Tailwind CSS
+Backend: Python (Flask)
+Machine Learning: Python, Scikit-Learn
+Model Pipeline:
+Data preprocessing → train_model.py → classification model
+Deployment: Local or Cloud (e.g., Heroku, Vercel)
+🚀 Installation
+1. Clone the repository
+git clone https://github.com/anisha1777/PhishGuard.git
+cd PhishGuard
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Install backend dependencies
+pip install -r requirements.txt
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+(Optional) Create a virtual environment:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+python3 -m venv venv
+source venv/bin/activate
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Install frontend dependencies
+cd src
+npm install
+npm start
 
-### `npm run eject`
+4. Train the model
+python train_model.py
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+5. Run the backend server
+python app.py
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+📌 How It Works
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The user enters an email or URL.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The backend processes the input.
 
-## Learn More
+The machine learning model evaluates phishing risk.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The result is returned and displayed in the frontend UI.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+🧪 Testing
 
-### Code Splitting
+Use known phishing emails and safe samples.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Validate model predictions.
 
-### Analyzing the Bundle Size
+Track false positives and false negatives for improvement.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+🤝 Contributing
 
-### Making a Progressive Web App
+Contributions are welcome.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Please:
 
-### Advanced Configuration
+Open issues for bugs or feature requests
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Submit pull requests
