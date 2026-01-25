@@ -30,12 +30,21 @@ const PhishingDetector = () => {
                 url: inputUrl,
                 isSafe: data.isSafe,
                 riskScore: data.riskScore,
+                explanations: data.checks.xgboost.explanations || [],
                 checks: [
                     {
-                        name: 'XGBoost Analysis',
-                        status: data.isSafe ? 'safe' : 'danger',
-                        message: data.message || (data.isSafe ? 'Model classified this URL as safe.' : 'Model detected phishing patterns.'),
-                        risk: data.riskScore
+                        name: 'XGBoost Machine Learning',
+                        status: data.checks.xgboost.safe ? 'safe' : 'danger',
+                        message: data.checks.xgboost.message + ` (Risk: ${data.checks.xgboost.riskScore})`,
+                        risk: data.checks.xgboost.riskScore,
+                        explanations: data.checks.xgboost.explanations
+                    },
+                    {
+                        name: 'Google Safe Browsing API',
+                        status: data.checks.googleSafeBrowsing.safe ? 'safe' : 'danger',
+                        message: data.checks.googleSafeBrowsing.message,
+                        risk: !data.checks.googleSafeBrowsing.safe ? 50 : 0,
+                        threats: data.checks.googleSafeBrowsing.threats
                     }
                 ]
             });
@@ -198,6 +207,16 @@ const PhishingDetector = () => {
                                                 <div className="flex-1">
                                                     <h4 className="font-semibold text-white mb-1">{check.name}</h4>
                                                     <p className="text-sm text-gray-300">{check.message}</p>
+                                                    {check.threats && check.threats.length > 0 && (
+                                                        <div className="mt-2 p-2 bg-red-500/10 rounded border border-red-500/20">
+                                                            <p className="text-xs font-semibold text-red-300 mb-1">Detected Threats:</p>
+                                                            {check.threats.map((threat, i) => (
+                                                                <p key={i} className="text-xs text-red-300">
+                                                                    • {threat.threatType}
+                                                                </p>
+                                                            ))}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                             {check.risk > 0 && (
@@ -214,6 +233,46 @@ const PhishingDetector = () => {
                                 ))}
                             </div>
                         </div>
+
+                        {result.explanations && result.explanations.length > 0 && (
+                            <div className="bg-blue-500/10 backdrop-blur-lg border border-blue-500/20 rounded-2xl p-4 sm:p-6">
+                                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                    <Info className="w-5 h-5 text-blue-400" />
+                                    Why This Decision? (Explainable AI)
+                                </h3>
+                                <p className="text-sm text-gray-300 mb-4">
+                                    The model analyzed 5 key URL features to make this assessment. Here's what influenced the decision (most important first):
+                                </p>
+                                <div className="space-y-3">
+                                    {result.explanations.map((exp, idx) => {
+                                        const impactPercent = Math.min((Math.abs(exp.shap_value) * 100), 100);
+                                        const isPhishingFactor = exp.direction === 'phishing';
+                                        return (
+                                            <div key={idx} className="p-3 rounded-lg bg-white/5 border border-white/10">
+                                                <div className="flex items-start justify-between mb-2">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white text-sm">{exp.feature}</h4>
+                                                        <p className="text-xs text-gray-400">{exp.description}</p>
+                                                    </div>
+                                                    <div className={`text-xs font-bold px-2 py-1 rounded ${isPhishingFactor ? 'bg-red-500/20 text-red-300' : 'bg-green-500/20 text-green-300'}`}>
+                                                        {isPhishingFactor ? '⚠ Risky' : '✓ Safe'}
+                                                    </div>
+                                                </div>
+                                                <div className="text-xs text-gray-300 mb-2">
+                                                    Value: <span className="font-mono">{exp.value.toFixed(1)}</span> • Impact: <span className="font-mono">{(exp.impact * 100).toFixed(1)}%</span>
+                                                </div>
+                                                <div className="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                                                    <div
+                                                        className={`h-full ${isPhishingFactor ? 'bg-red-500' : 'bg-green-500'}`}
+                                                        style={{ width: `${impactPercent}%` }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
 
                         <div className="bg-purple-500/10 backdrop-blur-lg border border-purple-500/20 rounded-2xl p-4 sm:p-6">
                             <h3 className="text-base sm:text-lg font-bold text-white mb-3">Recommendation</h3>
