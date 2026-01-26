@@ -14,7 +14,8 @@ const PhishingDetector = () => {
 
         try {
             // Call your Python XGBoost Backend
-            const response = await fetch('http://localhost:8000/analyze', {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+            const response = await fetch(`${apiUrl}/analyze`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ url: inputUrl.trim() }),
