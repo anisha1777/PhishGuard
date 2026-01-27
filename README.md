@@ -7,7 +7,7 @@ PhishGuard is a cybersecurity project built to detect phishing threats using an 
 
 ## 🔍 Features
 - 🛡️ Machine Learning–powered phishing detection  
-- 🔗 URL and email analysis  
+- 🔗 URL  analysis  
 - 📊 Interactive frontend built with React  
 - 🧠 Trainable model using `train_model.py`  
 - 🐍 Backend API support using `app.py`  
@@ -62,7 +62,7 @@ python app.py
 
 📌 How It Works
 
-The user enters an email or URL.
+The user enters an  URL.
 
 The backend processes the input.
 
@@ -72,7 +72,7 @@ The result is returned and displayed in the frontend UI.
 
 🧪 Testing
 
-Use known phishing emails and safe samples.
+Use and safe samples.
 
 Validate model predictions.
 
